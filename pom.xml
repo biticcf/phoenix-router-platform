@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.beyond.phoenix.router</groupId>
+	<artifactId>phoenix-router-parent</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0-SNAPSHOT</version>
+	<name>phoenix-router-parent</name>
+	
+	<modules>
+		<module>phoenix-router-web</module>
+	</modules>
+	
+	<properties>
+		<skipTests>true</skipTests>
+		<env>sit</env>
+		
+		<build.final.name>phoenix-router-release</build.final.name>
+		
+		<!-- docker配置 -->
+		<dockerfile.skip>false</dockerfile.skip>
+		<docker.repostory>xxxxx.tencentyun.com</docker.repostory>
+		<docker.registry.name>myregistry</docker.registry.name>
+		<docker.image.name>router-${env}</docker.image.name>
+		
+		<java.version>1.8</java.version>
+		
+		<!-- 定义版本号 -->
+		<phoenix-router.version>1.0.0.20190221</phoenix-router.version>
+		
+		<!-- spring platform -->
+		<spring.boot.version>2.0.3.RELEASE</spring.boot.version>
+		<spring.cloud.version>Finchley.RELEASE</spring.cloud.version>
+		
+		<!-- mybatis -->
+		<mybatis.spring.boot.starter.version>1.3.2</mybatis.spring.boot.starter.version>
+		<mybatis.spring.version>1.3.2</mybatis.spring.version>
+		<mybatis.version>3.4.6</mybatis.version>
+		
+		<!-- fastjson -->
+		<fastjson.version>1.2.47</fastjson.version>
+		
+		<!-- swagger -->
+		<guava.version>25.1-jre</guava.version>
+		<springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+		<springfox-swagger-ui.version>2.9.2</springfox-swagger-ui.version>
+		
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+	</properties>
+	
+	<dependencyManagement>
+		<dependencies>
+			<!-- core jars -->
+			<dependency>
+				<groupId>com.beyond.phoenix.router</groupId>
+				<artifactId>phoenix-router-web</artifactId>
+				<version>${phoenix-router.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>com.beyonds.phoenix.mountain</groupId>
+				<artifactId>phoenix-mountain-core</artifactId>
+				<version>1.0.0.20190220</version>
+			</dependency>
+			
+			<!-- SpringFramework把需要升级版本的组件放到前面 -->
+        	<!-- spring boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- spring cloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring.cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            
+            <!-- Spring Boot Admin,如果服务未启用注册中心,请在应用中启用此配置 -->
+            <!--
+            <dependency>
+   				<groupId>de.codecentric</groupId>
+   				<artifactId>spring-boot-admin-starter-client</artifactId>
+   				<version>1.5.5</version>
+			</dependency>
+			-->
+			
+			<!-- fastjson -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+			
+			<dependency>
+				<groupId>org.projectlombok</groupId>
+				<artifactId>lombok</artifactId>
+				<version>1.18.0</version>
+			</dependency>
+            
+            <!-- 解决Feign的 application/x-www-form-urlencoded类型 -->
+            <dependency>
+				<groupId>io.github.openfeign.form</groupId>
+				<artifactId>feign-form</artifactId>
+				<version>3.3.0</version>
+			</dependency>
+			<dependency>
+				<groupId>io.github.openfeign.form</groupId>
+				<artifactId>feign-form-spring</artifactId>
+				<version>2.0.5</version>
+			</dependency>
+            
+            <dependency>
+      			<groupId>com.google.guava</groupId>
+      			<artifactId>guava</artifactId>
+      			<version>${guava.version}</version>
+    		</dependency>
+            <dependency>
+				<groupId>io.springfox</groupId>
+				<artifactId>springfox-swagger2</artifactId>
+				<version>${springfox-swagger2.version}</version>
+			</dependency>
+			<dependency>
+            <groupId>io.springfox</groupId>
+            	<artifactId>springfox-swagger-ui</artifactId>
+            	<version>${springfox-swagger-ui.version}</version>
+        	</dependency>
+			
+			<dependency>
+				<groupId>aopalliance</groupId>
+				<artifactId>aopalliance</artifactId>
+				<version>1.0</version>
+			</dependency>
+			<dependency>
+            	<groupId>org.apache.commons</groupId>
+            	<artifactId>commons-lang3</artifactId>
+            	<version>3.7</version>
+        	</dependency>
+        	
+		</dependencies>
+	</dependencyManagement>
+	
+	<build>
+		<plugins>
+            <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<parameters>true</parameters>
+					<encoding>UTF-8</encoding>
+					<fork>true</fork>
+				</configuration>
+				<dependencies>
+        			<dependency>
+            			<groupId>org.ow2.asm</groupId>
+            			<artifactId>asm</artifactId>
+            			<version>6.1.1</version>
+        			</dependency>
+    			</dependencies>
+			</plugin>
+			
+		</plugins>
+	</build>
+	
+	<repositories>
+		<repository>
+			<id>rdc-releases</id>
+			<url>https://repo.rdc.aliyun.com/repository/49339-release-Sz60lB/</url>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+	
+</project>

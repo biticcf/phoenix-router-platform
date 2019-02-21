@@ -1,0 +1,28 @@
+
+说明：
+1，项目名称：phoenix-router-platform
+
+2，导入到开发工具Eclipse或者Idea的方法：
+2.1，方法一，直接用import功能导入；
+2.2，方法二，执行下列步骤后导入Eclipse：
+     cd ./
+     2.2.1.导入本地meaven仓库：mvn clean install -Denv=dev -DskipTests=true
+     2.2.2.导入Eclipse：mvn clean eclipse:clean eclipse:eclipse -Denv=dev -DskipTests=true
+
+3，测试方案
+3.1 跳过单元测试:mvn clean compile -DskipTests=true 或 mvn clean compile
+3.2 运行单元测试:mvn clean compile -DskipTests=false
+
+4，打包发版
+  4.1，打包：mvn clean package -DskipTests=false；
+  4.2，生成包文件在phoenix-router-platform.git/phoenix-router-web/target/phoenix-router-web/下面，
+       有启动脚本bin/single.sh和lib/phoenix-router-release.20180727.jar
+  4.3，把target/phoenix-router-web/下的两个目录整体打包发布到服务器；
+  4.4，执行脚本sh ./bin/single.sh  start | stop | restart
+
+5，项目使用说明：
+5.1，环境：jdk要求1.8+，SpringCloud是Finchley.RELEASE，SpringBoot是2.0.3.RELEASE，web模式是servlet，
+     开发环境要求Maven版本是3.5+，开发工具Eclipse建议使用Oxygen.3a Release (4.7.3a)+；
+5.2，项目启动方式：执行com.beyond.phoenix.router.app.Main即可；
+【End】
+

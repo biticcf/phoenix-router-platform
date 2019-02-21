@@ -1,0 +1,89 @@
+spring: 
+  application: 
+    name: ${TENANT_GROUP:}router
+  cloud: 
+    gateway: 
+      routes: 
+      - id: phoenix-plazapi # 广场API
+        name: 广场API
+        uri: http://aaaaa.intra.bbbbb.com
+        predicates: 
+        - Path=/phoenix/plazapi/**
+        filters:
+        #- StripPrefix=0
+        - RewritePath=/phoenix/plazapi/v2/api-docs, /v2/api-docs
+      - id: phoenix-storeapi # 门店API
+        name: 门店API
+        uri: http://ccccc.intra.bbbbb.com
+        predicates: 
+        - Path=/phoenix/storeapi/**
+        filters:
+        #- StripPrefix=0
+        - RewritePath=/phoenix/storeapi/v2/api-docs, /v2/api-docs
+  http: 
+    converters: 
+      preferred-json-mapper: jackson
+    encoding:
+      enabled: true
+      charset: UTF-8
+  servlet:
+    multipart: 
+      enabled: true
+      file-size-threshold: 0
+      location: ./tmp
+      max-file-size: 10MB
+      max-request-size: 10MB
+      resolve-lazily: false
+  jackson: 
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+08:00
+  messages: 
+    encoding: UTF-8
+
+server: 
+  port: ${SERVER_PORT:10000}
+  display-name: ${TENANT_GROUP:}router
+  connection-timeout: 60000
+
+eureka:
+  client:
+    enabled: false
+    serviceUrl:
+      defaultZone: ${REGISTER_CENTER_DEFAULT_SERVICE_URL:http://127.0.0.1:10003/eureka/}
+
+logging:
+  level:
+    org.springframework.cloud.gateway: debug
+    org.springframework.http.server.reactive: debug
+    org.springframework.web.reactive: debug
+    reactor.ipc.netty: debug
+
+voyager: 
+  token: 
+    host: http://aaaxxx.intra.bbbbb.com
+    check: 
+      expire-token: 60 #缓存过期时间,单位是秒
+      white-uri:
+       - method: GET
+         uri: /+phoenix/plazapi/v2/api-docs
+       - method: GET
+         uri: /+phoenix/storeapi/v2/api-docs
+       - method: POST
+         uri: /+phoenix/storeapi/v1/entry/login
+       - method: POST
+         uri: /+phoenix/storeapi/v1/entry/vCode
+       - method: POST
+         uri: /+phoenix/plazapi/v1/user/login
+       - method: GET
+         uri: /+phoenix/plazapi/v1/getHotspotImage
+      black-uri: 
+       - method: GET
+         uri: /+permission/voyager/basisb/v1/token/[0-9]{1,40}
+
+pm: 
+  org: 
+    check: 
+      enabled: true
+      expire-time: 60  #缓存过期时间,单位是秒
+    query: 
+      host: http://xxxxx.intra.bbbbb.com
