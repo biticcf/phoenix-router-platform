@@ -63,12 +63,32 @@
 		</encoder>
 	</appender>
 	
+    <!-- [5,Netty Appender] Accass日志 -->
+    <appender name="ACCESS-APPENDER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOGGING_ROOT}/access-log.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+              <fileNamePattern>${LOGGING_ROOT}/access/access-log.log.%d{yyyyMMdd}</fileNamePattern>
+              <maxHistory>20</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ASYNC-APPENDER" class="ch.qos.logback.classic.AsyncAppender">
+        <appender-ref ref="ACCESS-APPENDER" />
+    </appender>
+	
 	<!-- <param name="ConversionPattern" value="%d [%t] %-5p %c - [%m]%n"/> -->
 	<!-- ===================================================================== -->
 	<!-- Loggers                                                               -->
 	<!-- ===================================================================== -->
 	<!-- ===== [公共Logger] ===== -->
-	    <!-- [公共Logger] 控制台STDOUT - STDOUT -->
+	<!-- [公共Logger] ACCESS LOG - ACCESS -->
+	<logger name="reactor.netty.http.server.AccessLog" additivity="false">
+        <level value="INFO"/>
+        <appender-ref ref="ASYNC-APPENDER"/>
+    </logger>
+	<!-- [公共Logger] 控制台STDOUT - STDOUT -->
     <logger name="STDOUT" additivity="false">
         <level value="INFO"/>
         <appender-ref ref="STDOUT-APPENDER"/>

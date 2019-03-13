@@ -6,7 +6,7 @@ ARG JAR_FILE
 
 VOLUME ${LOGGING_PATH}
 
-CMD [ "/bin/bash", "-c", "java ${DEFAULT_JAVA_OPTS} -Dsjdbc.self.id.generator.worker.id=$RANDOM$RANDOM -Djava.security.egd=file:/dev/./urandom -jar /var/wd/app.jar" ]
+CMD [ "/bin/bash", "-c", "java ${DEFAULT_JAVA_OPTS} -Dreactor.netty.http.server.accessLogEnabled=true -Dsjdbc.self.id.generator.worker.id=$RANDOM$RANDOM -Djava.security.egd=file:/dev/./urandom -jar /var/wd/app.jar" ]
 
 # 拷贝jar
 COPY ./lib/${JAR_FILE} /var/wd/app.jar

@@ -25,6 +25,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 public class Main {
 	// jar启动入口
 	public static void main(String[] args) throws Exception {
+		System.setProperty("reactor.netty.http.server.accessLogEnabled", "true");
+		
 		configureApplication(new SpringApplicationBuilder()).run(args);
 	}
 	

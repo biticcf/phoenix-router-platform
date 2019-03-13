@@ -27,7 +27,7 @@
 		<java.version>1.8</java.version>
 		
 		<!-- 定义版本号 -->
-		<phoenix-router.version>1.0.0.20190221</phoenix-router.version>
+		<phoenix-router.version>1.0.0.20190314</phoenix-router.version>
 		
 		<!-- spring platform -->
 		<spring.boot.version>2.0.3.RELEASE</spring.boot.version>
@@ -81,6 +81,12 @@
                 <version>${spring.cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            
+            <dependency>
+                <groupId>io.projectreactor.ipc</groupId>
+                <artifactId>reactor-netty</artifactId>
+                <version>0.7.13.RELEASE</version>
             </dependency>
             
             <!-- Spring Boot Admin,如果服务未启用注册中心,请在应用中启用此配置 -->
